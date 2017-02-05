@@ -26,6 +26,8 @@ def print_progress(done=False):
               end='\n' if done else '\r')
 
 
+# --- Homework 1 algorithms --- #
+
 def bfts(start):
     """Breadth First Tree Search. Basically don't use the came_from graph
     shortcut and make your algorithm super slow. Like so slow you could
@@ -107,3 +109,53 @@ def bfs(start, use_came_from=True):
     # If we're here, that means that there no path exists to a goal state
     # So signify that by not even giving a path
     return None
+
+
+# --- Homework 2 Algorithms --- #
+
+def id_dfgs(start):
+    """Iterative Deepening Depth First Graph Search
+    Basically do Depth First Search, but only up to a given depth. If no path
+    id found, increase the given depth by 1 and try again. Keep doing that, and
+    if a path exists, we'll find it
+    """
+    depth = 0
+    while True:
+        path = dl_dfgs(start, depth, set())
+        if path is not None:  # then at this depth we found a path!
+            return path
+        # else no path was found at this depth, try again at 1 lower
+        depth += 1
+
+
+def dl_dfgs(board, depth, visited):
+    """Depth Limited Depth First Graph Search, used in ID-DFS
+    This is a recursive implementation, so the fringe of boards is maintained
+    in the call stack, rather than a list() like in BFS above
+
+    I could have edited bfs() above to accommodate dfs via popping off the end
+    of the fringe, and adding a depth check, but that is probably just over
+    complicating a single function, and this recursive implementation solves
+    the puzzles just fine.
+    """
+    print_progress()
+
+    if board.str_id in visited:
+        return  # no need to re-visit node in graph search
+
+    # record this board's hash-able string id as visited so we don't re-visit
+    # (graph search)
+    visited.add(board.str_id)
+
+    if board.is_boat_at_goal():
+        # there is a path to here!
+        # recursively reconstruct it using this list
+        return []
+
+    if depth > 0:
+        for child in board.generate_child_boards():
+            path = dl_dfgs(child, depth - 1, visited)
+            if path is not None:
+                # a path exists, so reconstruct it using this child
+                path.insert(0, child)
+                return path
