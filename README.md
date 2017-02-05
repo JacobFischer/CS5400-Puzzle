@@ -2,6 +2,8 @@
 
 My solutions to the [CS5400 SP2017 puzzle assignment series][puzzle].
 
+Homework 2 submission
+
 ## Requirements
 
 This is a Python 3 solution, so obviously you will need [Python 3][python] installed.
@@ -33,19 +35,15 @@ After finding a solution to a puzzle, solutions are output in the `solutions/` d
 
 ### Pre-solved
 
-puzzles 1-3 were solved using BFS and the solutions are included in this repository. Feel free to re-run them as inputs to resolve them.
+puzzles 1-3 were solved using ID-DFGS and the solutions are included in this repository. Feel free to re-run them as inputs to resolve them.
 
-Puzzle 4 ate up too much RAM under BFGS so I killed it. Regardless it's not needed at this point as per TAs suggestions.
+Puzzle 4 did literally over a billion iterations over the course of a day. So I killed it :P
 
 ## Run file
 
 A `run.sh` file is included as per assignment rules. It literally just does this:
 
-```
-python3 ./src/main.py bfts ./puzzles/puzzle1.txt
-```
-
-So it solves puzzle1 using Breadth First Tree Search.
+It solves puzzle1 and puzzle2 using Iterative Deepening Depth First Graph Search. It can take optional CLI overrides to use different algorithms and puzzles if need be
 
 ## Terminology
 
@@ -75,6 +73,8 @@ Notice the Boat has an arrow instead of an index (as there is always 1 boat).
 ## Other notes
 
 The source should follow [PEP8][pep8] strictly. This means some lines of code are broken up on multiple lines a little oddly.
+
+For puzzle2 the solution is less optimal using ID-DFGS than using BFS. But this makes sense as it searches deep, not wide, for solutions.
 
 ## Questions?
 

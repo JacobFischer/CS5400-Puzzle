@@ -129,7 +129,7 @@ def id_dfgs(start):
 
 
 def dl_dfgs(board, depth, visited):
-    """Depth Limited Depth First Graph Search, used in ID-DFS
+    """Depth Limited Depth First Graph Search, used in ID-DFGS
     This is a recursive implementation, so the fringe of boards is maintained
     in the call stack, rather than a list() like in BFS above
 
