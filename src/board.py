@@ -283,7 +283,7 @@ class Board():
         Returns:
             str: a string (with newlines) that shows what the Board looks like
         """
-        lines = []
+        lines = ['rad: {}'.format(self.boat.radiation)]
         for y in range(self.height):
             line = []
             for x in range(self.width):
@@ -320,3 +320,6 @@ class Board():
             str: the string id (which is also ASCII art)
         """
         return self.str_id
+
+    def __hash__(self):
+        return hash(str(self))

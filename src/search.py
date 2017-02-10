@@ -159,3 +159,41 @@ def dl_dfgs(board, depth, visited):
                 # a path exists, so reconstruct it using this child
                 path.insert(0, child)
                 return path
+
+
+def grbefgs(start):
+    def h(b):
+        return b.boat.pivot.manhattan_distance_to(b.goal.pivot)
+
+    closed_set = set()
+    open_set = set([start])
+
+    score = {
+        start: h(start)
+    }
+
+    while len(open_set) > 0:
+        print_progress()
+
+        # find board with minimum f
+        fringe = sorted(open_set, key=lambda x: score[x])
+        current = fringe[0]  # board with the lowest score
+
+        if current.is_boat_at_goal():
+            path = []
+            while current != start:
+                path.insert(0, current)
+                current = current.parent_board
+            return path
+
+        closed_set.add(current)
+        open_set.remove(current)
+
+        for child in current.generate_child_boards():
+            if child not in closed_set:
+                # calculate the heuristics for child board
+                score[child] = h(child)
+                # add child board to open set
+                open_set.add(child)
+
+    return None  # empty table means failure
