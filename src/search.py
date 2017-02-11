@@ -161,39 +161,65 @@ def dl_dfgs(board, depth, visited):
                 return path
 
 
-def grbefgs(start):
-    def h(b):
-        return b.boat.pivot.manhattan_distance_to(b.goal.pivot)
+# --- Homework 3 Algorithms --- #
 
-    closed_set = set()
-    open_set = set([start])
+def f(n):
+    """Used to estimate the cost from board n to the goal
+    """
+    at_goal = n.at(n.goal.pivot)
+    if at_goal is n.boat:
+        return 0  # no cost, cause it's a goal state
 
-    score = {
-        start: h(start)
-    }
+    # a rough estimate of the distance to the goal from the boat
+    d = n.boat.midpoint().manhattan_distance_to(n.goal.pivot)
 
-    while len(open_set) > 0:
+    # add 1 to the cost because there's something on top of the goal that
+    #   needs to be moved, which will require an additional state
+    off = 1 if at_goal else 0
+    return d + off
+
+
+def gr_bef_gs(start):
+    """Greedy Best First Graph Search: Search by using the board that appears
+    to be the closest to the goal node using some f(n)
+    """
+
+    # boards that we have investigated (graph search)
+    visited = set()
+    # set of boards open to investigation
+    fringe = {str(start): start}
+
+    # scores for boards in one of the sets
+    score = {str(start): f(start)}
+
+    while fringe:
         print_progress()
 
-        # find board with minimum f
-        fringe = sorted(open_set, key=lambda x: score[x])
-        current = fringe[0]  # board with the lowest score
+        # find the board in the fringe with the lowest score
+        current = None
+        for key, board in fringe.items():
+            if not current or score[str(board)] < score[str(current)]:
+                current = board
 
         if current.is_boat_at_goal():
+            # then we found a path, return it
             path = []
+            # reconstruct it
             while current != start:
                 path.insert(0, current)
                 current = current.parent_board
             return path
 
-        closed_set.add(current)
-        open_set.remove(current)
+        # mark this board as investigated (closed)
+        visited.add(str(current))
+        fringe.pop(str(current), None)
 
+        # add this boards children to be investigated
         for child in current.generate_child_boards():
-            if child not in closed_set:
+            if str(child) not in visited and str(child) not in fringe:
                 # calculate the heuristics for child board
-                score[child] = h(child)
+                score[str(child)] = f(child)
                 # add child board to open set
-                open_set.add(child)
+                fringe[str(child)] = child
 
-    return None  # empty table means failure
+    return None  # no path means failure

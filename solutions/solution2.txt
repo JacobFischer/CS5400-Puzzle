@@ -1,18 +1,18 @@
-243745
-2001
-22
-T 2 L,T 4 U,B 0 L,B 0 L,T 0 D,T 3 U,T 6 D,T 6 D,T 2 L,T 0 D,T 3 D,T 6 U,T 1 U,T 5 L,T 6 U,T 1 D,T 6 D,T 4 U,T 1 U,T 2 R,T 0 D,B 0 C
+1969275
+2340
+25
+T 0 U,T 0 U,T 4 U,B 0 L,T 4 U,B 0 C,T 2 R,T 3 U,T 6 D,T 5 L,T 4 U,T 6 D,B 0 N,A 0 U,T 3 U,T 1 U,T 6 U,A 0 D,T 0 D,A 0 D,T 5 R,T 2 L,T 0 D,B 0 L,B 0 C
 7 7
 5 5
 50 1
 1 7 0
-6 4 U
-1 5 D
+6 5 U
+1 2 D
 5 2 D
-4 0 L
-2 5 D
-4 4 U
-4 1 R
+5 0 L
+2 3 D
+4 3 U
+5 1 R
 3 3 U
 4 6 U
 4 5

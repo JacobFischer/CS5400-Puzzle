@@ -46,7 +46,7 @@ class Point:
         """Point(x1*scalar, y1*scalar)"""
         return Point(self.x*scalar, self.y*scalar)
 
-    def __div__(self, scalar):
+    def __truediv__(self, scalar):
         """Point(x1/scalar, y1/scalar)"""
         return Point(self.x/scalar, self.y/scalar)
 

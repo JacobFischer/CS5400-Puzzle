@@ -40,6 +40,9 @@ class Piece:
             self.pivot, self.orientation, self.__class__.length-1
         )
 
+    def midpoint(self):
+        return (self.pivot + self.front()) / 2
+
     def clone(self, board=None):
         return self.__class__(board=board, original=self)
 

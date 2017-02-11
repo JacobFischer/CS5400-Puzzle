@@ -1,7 +1,7 @@
-106759
-210
-10
-B 0 L,B 0 L,B 0 L,B 0 N,B 0 D,B 0 D,B 0 D,B 0 N,B 0 R,B 0 R
+17845
+294
+12
+B 0 L,B 0 L,B 0 N,B 0 D,B 0 D,B 0 D,B 0 C,B 0 L,B 0 N,B 0 N,B 0 R,B 0 R
 5 5
 3 3
 18 2

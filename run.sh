@@ -1,8 +1,8 @@
 # HW2: solves puzzle 1 and 2 via ID-DFGS
 
 # default arguments
-algorithm="id_dfgs"
-puzzles="puzzles/puzzle1.txt puzzles/puzzle2.txt"
+algorithm="gr_bef_gs"
+puzzles="puzzles/puzzle1.txt puzzles/puzzle2.txt puzzles/puzzle3.txt"
 
 # command line arg overrides
 if [ -n "$1" ]; then

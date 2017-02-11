@@ -283,7 +283,7 @@ class Board():
         Returns:
             str: a string (with newlines) that shows what the Board looks like
         """
-        lines = ['rad: {}'.format(self.boat.radiation)]
+        lines = []
         for y in range(self.height):
             line = []
             for x in range(self.width):
