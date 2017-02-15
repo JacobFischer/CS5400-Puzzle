@@ -4,6 +4,7 @@ boat. New algorithms will be added here, and can be invoked via the CLI.
 For the first assignment follow the trace for `bfts()`
 """
 
+import math
 _iteration = {'i': 0}
 
 
@@ -180,7 +181,7 @@ def f(n):
 
 
 def gr_bef_gs(start):
-    """Greedy Best First Graph Search: Search by using the board that appears
+    """Greedy, Best First, Graph Search: Search by using the board that appears
     to be the closest to the goal node using some f(n)
     """
 
@@ -223,3 +224,82 @@ def gr_bef_gs(start):
                 fringe[str(child)] = child
 
     return None  # no path means failure
+
+
+# --- Homework 4 Algorithms --- #
+
+def h(n):
+    """Heuristic, the amount of estimated radiation added to get to the board
+    from board n
+    """
+    steps = f(n)
+    rad = min(n.radiation_at(n.boat.pivot), n.radiation_at(n.boat.front()))
+    return math.ceil(steps) * (rad + rad)
+
+
+def g(n):
+    return n.boat.radiation
+
+
+def a_star_gs(start):
+    """A pathfinding algorithm (A*) that finds a valid path from this Tile to
+    another Tile
+
+    Args:
+        start (Board) - the starting board
+    Returns:
+        (list[Board]) table representing the path. The first element in the
+        table will be the first tile in the path, with the last element being
+        the goal. An empty table means no path could be found.
+    """
+
+    # boards that we have investigated (graph search)
+    closed = {}
+
+    # set of boards open to investigation
+    fringe = {str(start): start}
+
+    # scores for boards to get from the start to that board
+    # The only g_score we know of is the start, which obviously starts at 0
+    # as it costs nothing to get to yourself
+    g_score = {str(start): 0}
+
+    # for each board, the total cost of getting from the start to the goal
+    f_score = {str(start): h(start)}
+
+    while fringe:
+        print_progress()
+
+        # find the board in the fringe with the lowest f_score
+        current = None
+        for key, board in fringe.items():
+            if not current or f_score[str(board)] < f_score[str(current)]:
+                current = board
+
+        if current.is_boat_at_goal():
+            # then we found a path, return it
+            path = []
+            # reconstruct it
+            while current != start:
+                path.insert(0, current)
+                current = current.parent_board
+            return path
+        # else: mark this board as investigated (closed)
+        closed[str(current)] = True
+        del fringe[str(current)]
+
+        # add this boards children to be investigated
+        for child in current.generate_child_boards():
+            if str(child) in closed:
+                continue
+
+            child_g = g(child)
+
+            if str(child) in g_score and child_g >= g_score[str(child)]:
+                continue  # as this g_score is higher than the board we know
+
+            fringe[str(child)] = child
+
+            # calculate the heuristics for child board
+            g_score[str(child)] = g(child)
+            f_score[str(child)] = h(child) + g(child)

@@ -33,6 +33,11 @@ class Board():
             from
         """
         self._id = Board._id
+        self.parent_action = None
+        self.parent_board = None
+        self.ancestors_str = ''
+        self.depth = 0
+
         Board._id += 1
         self.width = None
         self.height = None
@@ -61,8 +66,17 @@ class Board():
         """
         self._clone_from(action.board)
 
+        self.depth += 1
         self.parent_board = action.board
         self.parent_action = action
+
+        a = self.parent_action
+        ancestors = []
+        while a:
+            ancestors.insert(0, a.str_formatted())
+            a = a.board.parent_action
+
+        self.ancestors_str = ','.join(ancestors)
 
         if action.piece_name == "Boat":
             piece = self.boat
@@ -285,7 +299,7 @@ class Board():
         """
         lines = []
         for y in range(self.height):
-            line = []
+            line = []#self.ancestors_str]
             for x in range(self.width):
                 obj = self.at(x, y)
                 rep = _str_mapping[obj.__class__]
@@ -313,7 +327,7 @@ class Board():
             lines.append(" ".join(line))  # pad with a space for pretty-ness
         self.str_id = "\n".join(lines)
 
-    def __repr__(self):
+    def __str__(self):
         """string representation override
 
         Returns:
@@ -322,4 +336,4 @@ class Board():
         return self.str_id
 
     def __hash__(self):
-        return hash(str(self))
+        return hash(self.str_id)

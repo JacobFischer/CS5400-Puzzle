@@ -21,7 +21,7 @@ def clockwise(direction):
         return "D"
     if direction == "D":
         return "L"
-    return "U"
+    return "D"
 
 
 def invert(direction):
@@ -57,7 +57,7 @@ def counter_clockwise(direction):
         return "D"
     if direction == "D":
         return "R"
-    return "R"
+    return "U"
 
 
 def offset(point, direction, distance=1):
