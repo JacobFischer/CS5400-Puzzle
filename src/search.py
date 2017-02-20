@@ -228,11 +228,62 @@ def gr_bef_gs(start):
 
 # --- Homework 4 Algorithms --- #
 
+def astar_f(n):
+    """Used to estimate the cost from board n to the goal
+    Modified for f(n)
+
+    Note: this part of the heuristic is not great, and can overestimate the
+    number of steps required.
+    """
+    at_goal = n.at(n.goal.pivot)
+    if at_goal is n.boat:
+        return 0  # no cost, cause it's a goal state
+
+    # a rough estimate of the distance to the goal from the boat
+    start = n.goal.pivot
+    end = n.boat.midpoint()
+    d = start.manhattan_distance_to(end)
+
+    # add an additional move for a rough estimate of animals in the way along
+    # the Manhattan path
+    point = start.clone()
+    for i in range(math.ceil(d)):
+        dx = end.x - point.x
+        dy = end.y - point.y
+        if dx:
+            point.x += int(dx/abs(dx))
+        if dy:
+            point.y += int(dy/abs(dy))
+
+        at = n.at(point)
+        if at and at is not n.boat:
+            # then something is present, so add an action to move it away
+            d += 1
+
+    """ Disabled because it actually decreased performance in Puzzles
+    # add 1 if there is something in front of the boat
+
+    if not n.boat.can_move_forward():
+        d += 1
+
+    # add 1 if the boat cannot rotate in either direction
+    if not n.boat.can_rotate(True):
+        d += 1
+    if not n.boat.can_rotate(False):
+        d += 1
+    """
+
+    # add 1 to the cost because there's something on top of the goal that
+    #   needs to be moved, which will require an additional state
+    off = 1 if at_goal else 0
+    return d + off
+
+
 def h(n):
     """Heuristic, the amount of estimated radiation added to get to the board
     from board n
     """
-    steps = f(n)
+    steps = astar_f(n)
     rad = min(n.radiation_at(n.boat.pivot), n.radiation_at(n.boat.front()))
     return math.ceil(steps) * (rad + rad)
 
@@ -241,9 +292,9 @@ def g(n):
     return n.boat.radiation
 
 
-def a_star_gs(start):
+def astar_gs(start):
     """A pathfinding algorithm (A*) that finds a valid path from this Tile to
-    another Tile
+    another Tile (graph search)
 
     Args:
         start (Board) - the starting board

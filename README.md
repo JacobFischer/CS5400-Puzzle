@@ -24,6 +24,7 @@ At this time the options are:
 
 * `bfts` - Beadth First Tree Search
 * `bfgs` - Breadth First Graph Search _(default)_
+* `astar_gs` - A Star Graph Search
 
 And `[PUZZLE_FILE]` is also optional and should be a path to a properly formatted puzzle file.
 
@@ -35,15 +36,17 @@ After finding a solution to a puzzle, solutions are output in the `solutions/` d
 
 ### Pre-solved
 
-puzzles 1-3 were solved using ID-DFGS and the solutions are included in this repository. Feel free to re-run them as inputs to resolve them.
+Puzzles 1-3 are pretty fast
 
-Puzzle 4 did literally over a billion iterations over the course of a day. So I killed it :P
+Puzzle 4 takes a while, but will get solved around 60,000 iteration in. Python is pretty slow I guess :P
+
+Also it's hard to make a good heuristic for this.
 
 ## Run file
 
 A `run.sh` file is included as per assignment rules. It literally just does this:
 
-It solves puzzle1 and puzzle2 using Iterative Deepening Depth First Graph Search. It can take optional CLI overrides to use different algorithms and puzzles if need be
+Puzzles 1-4 solved using A* GS. Note that puzzle for takes a long time (60,000 iterations).
 
 ## Terminology
 
@@ -73,8 +76,6 @@ Notice the Boat has an arrow instead of an index (as there is always 1 boat).
 ## Other notes
 
 The source should follow [PEP8][pep8] strictly. This means some lines of code are broken up on multiple lines a little oddly.
-
-For puzzle2 the solution is less optimal using ID-DFGS than using BFS. But this makes sense as it searches deep, not wide, for solutions.
 
 ## Questions?
 
